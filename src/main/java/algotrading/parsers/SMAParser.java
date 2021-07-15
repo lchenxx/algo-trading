@@ -1,4 +1,4 @@
-package AlgoTrading.parsers;
+package algotrading.parsers;
 
 import java.util.Arrays;
 import java.util.List;
