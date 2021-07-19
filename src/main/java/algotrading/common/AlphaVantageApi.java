@@ -11,11 +11,11 @@ import java.net.http.HttpResponse;
 public class AlphaVantageApi {
 
   public String getDataByFunction(
-      String interval, String function, String symbol, String compactOrNot)
+      String function, String symbol, String interval, String compactOrNot)
       throws IOException, InterruptedException {
-    interval = interval.isEmpty() ? "" : "interval=" + interval;
-    function = "function=" + function.toUpperCase().replace(' ', '_');
-    symbol = "symbol=" + symbol.toUpperCase();
+    function = "function=" + function.toUpperCase().replace(' ', '_') + '&';
+    symbol = "symbol=" + symbol.toUpperCase() + '&';
+    interval = interval.isEmpty() ? "" : "interval=" + interval + '&';
     compactOrNot = "output_size=" + (compactOrNot.equalsIgnoreCase("compact") ? "compact" : "full");
 
     HttpRequest request =
@@ -23,11 +23,9 @@ public class AlphaVantageApi {
             .uri(
                 URI.create(
                     "https://alpha-vantage.p.rapidapi.com/query?"
-                        + interval
-                        + '&'
                         + function
-                        + '&'
                         + symbol
+                        + interval
                         + "&datatype=csv&"
                         + compactOrNot))
             .header("x-rapidapi-key", "f5da0dee66msh4092453d2c85d7ap16c5c0jsn42ed0a42276c")
@@ -53,7 +51,7 @@ public class AlphaVantageApi {
         HttpRequest.newBuilder()
             .uri(
                 URI.create(
-                    "https://alpha-vantage.p.rapidapi.com/query?function=RSI"
+                    "https://alpha-vantage.p.rapidapi.com/query?function=RSI&"
                         + symbol
                         + interval
                         + timePeriod
