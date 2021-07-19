@@ -62,15 +62,12 @@ public class AlphaVantageApi {
 
   private String constructUri(
       String function, String symbol, @Nullable String interval, @Nullable String compactOrNot) {
-    return RequestUriBuilder.builder()
-        .base(Constants.Base)
-        .function(addPadding("function", function))
-        .symbol(addPadding("symbol", symbol))
-        .interval(addPadding("interval", interval))
-        .outputSize(addPadding("output size", compactOrNot))
-        .dataType(Constants.DataType)
-        .build()
-        .toString();
+    return Constants.Base
+        + addPadding("function", function)
+        + addPadding("symbol", symbol)
+        + addPadding("interval", interval)
+        + addPadding("output size", compactOrNot)
+        + Constants.DataType;
   }
 
   private String constructUriByIndicator(
@@ -79,17 +76,14 @@ public class AlphaVantageApi {
       String interval,
       @Nullable String timePeriod,
       @Nullable String fastkperiod) {
-    return RequestUriBuilder.builder()
-        .base(Constants.Base)
-        .function(addPadding("function", function))
-        .symbol(addPadding("symbol", symbol))
-        .interval(addPadding("interval", interval))
-        .timePeriod(addPadding("time period", timePeriod))
-        .series_type("series_type=close&")
-        .fastkperiod(addPadding("fastkperiod", fastkperiod))
-        .dataType(Constants.DataType)
-        .build()
-        .toString();
+    return Constants.Base
+        + addPadding("function", function)
+        + addPadding("symbol", symbol)
+        + addPadding("interval", interval)
+        + addPadding("time period", timePeriod)
+        + "series_type=close&"
+        + addPadding("fastkperiod", fastkperiod)
+        + Constants.DataType;
   }
 
   private String addPadding(String param, String value) {
