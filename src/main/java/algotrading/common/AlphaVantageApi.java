@@ -26,6 +26,7 @@ public class AlphaVantageApi {
             .header("x-rapidapi-host", Constants.Headers.get("x-rapidapi-host"))
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build();
+
     response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
     System.out.println("Request URI is " + request.uri());
@@ -52,8 +53,9 @@ public class AlphaVantageApi {
             .header("x-rapidapi-host", Constants.Headers.get("x-rapidapi-host"))
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build();
-    HttpResponse<String> response =
-        HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+    response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
     System.out.println("Request URI is " + request.uri());
     System.out.println(response.body());
 
