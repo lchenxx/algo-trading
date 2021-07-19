@@ -100,7 +100,7 @@ public class AlphaVantageApi {
         case "series type":
           return param.replace(" ", "_") + '=' + value + '&';
         case "output size":
-          return "output_size=" + (value.equalsIgnoreCase("compact") ? "compact" : "full");
+          return "output_size=" + (value.equalsIgnoreCase("compact") ? "compact" : "full") + '&';
         default:
           return param.replace(" ", "") + '=' + value + '&';
       }
