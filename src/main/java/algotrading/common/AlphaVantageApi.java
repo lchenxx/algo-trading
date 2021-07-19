@@ -7,33 +7,35 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AlphaVantageApi {
+  final String base = "https://alpha-vantage.p.rapidapi.com/query?";
+  final String dataType = "datatype=csv";
+  final Map<String, String> headers =
+      new HashMap<>() {
+        {
+          put("x-rapidapi-key", "f5da0dee66msh4092453d2c85d7ap16c5c0jsn42ed0a42276c");
+          put("x-rapidapi-host", "alpha-vantage.p.rapidapi.com");
+        }
+      };
+  HttpRequest request;
+  HttpResponse<String> response;
 
   public String getDataByFunction(
       String function, String symbol, String interval, String compactOrNot)
       throws IOException, InterruptedException {
-    function = "function=" + function.toUpperCase().replace(' ', '_') + '&';
-    symbol = "symbol=" + symbol.toUpperCase() + '&';
-    interval = interval.isEmpty() ? "" : "interval=" + interval + '&';
-    compactOrNot = "output_size=" + (compactOrNot.equalsIgnoreCase("compact") ? "compact" : "full");
 
-    HttpRequest request =
+    request =
         HttpRequest.newBuilder()
-            .uri(
-                URI.create(
-                    "https://alpha-vantage.p.rapidapi.com/query?"
-                        + function
-                        + symbol
-                        + interval
-                        + "&datatype=csv&"
-                        + compactOrNot))
-            .header("x-rapidapi-key", "f5da0dee66msh4092453d2c85d7ap16c5c0jsn42ed0a42276c")
-            .header("x-rapidapi-host", "alpha-vantage.p.rapidapi.com")
+            .uri(URI.create(constructUri(function, symbol, interval, compactOrNot)))
+            .header("x-rapidapi-key", headers.get("x-rapidapi-key"))
+            .header("x-rapidapi-host", headers.get("x-rapidapi-host"))
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build();
-    HttpResponse<String> response =
-        HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+    response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
     System.out.println("Request URI is " + request.uri());
     System.out.println(response.body());
 
@@ -55,10 +57,9 @@ public class AlphaVantageApi {
                         + symbol
                         + interval
                         + timePeriod
-                        + seriesType
-                        + "&datatype=csv"))
-            .header("x-rapidapi-key", "f5da0dee66msh4092453d2c85d7ap16c5c0jsn42ed0a42276c")
-            .header("x-rapidapi-host", "alpha-vantage.p.rapidapi.com")
+                        + seriesType))
+            .header("x-rapidapi-key", headers.get("x-rapidapi-key"))
+            .header("x-rapidapi-host", headers.get("x-rapidapi-host"))
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build();
     HttpResponse<String> response =
@@ -84,8 +85,8 @@ public class AlphaVantageApi {
                         + interval
                         + fastKPeriod
                         + "&datatype=csv"))
-            .header("x-rapidapi-key", "f5da0dee66msh4092453d2c85d7ap16c5c0jsn42ed0a42276c")
-            .header("x-rapidapi-host", "alpha-vantage.p.rapidapi.com")
+            .header("x-rapidapi-key", headers.get("x-rapidapi-key"))
+            .header("x-rapidapi-host", headers.get("x-rapidapi-host"))
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build();
     HttpResponse<String> response =
@@ -111,8 +112,8 @@ public class AlphaVantageApi {
                         + interval
                         + seriesType
                         + "&datatype=csv"))
-            .header("x-rapidapi-key", "f5da0dee66msh4092453d2c85d7ap16c5c0jsn42ed0a42276c")
-            .header("x-rapidapi-host", "alpha-vantage.p.rapidapi.com")
+            .header("x-rapidapi-key", headers.get("x-rapidapi-key"))
+            .header("x-rapidapi-host", headers.get("x-rapidapi-host"))
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build();
     HttpResponse<String> response =
@@ -121,5 +122,23 @@ public class AlphaVantageApi {
     System.out.println(response.body());
 
     return response.body();
+  }
+
+  private String constructUri(
+      String function, String symbol, String interval, String compactOrNot) {
+    function = "function=" + function.toUpperCase().replace(' ', '_') + '&';
+    symbol = "symbol=" + symbol.toUpperCase() + '&';
+    interval = interval.isEmpty() ? "" : "interval=" + interval + '&';
+    compactOrNot = "output_size=" + (compactOrNot.equalsIgnoreCase("compact") ? "compact" : "full");
+
+    return RequestUriBuilder.builder()
+        .base(base)
+        .function(function)
+        .symbol(symbol)
+        .interval(interval)
+        .outputSize(compactOrNot)
+        .dataType(dataType)
+        .build()
+        .toString();
   }
 }
