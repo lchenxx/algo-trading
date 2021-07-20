@@ -8,6 +8,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class SMA {
-  String date;
+  String time;
   String sma;
 }

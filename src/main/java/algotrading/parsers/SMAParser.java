@@ -19,7 +19,7 @@ public class SMAParser {
         .map(
             line ->
                 SMA.builder()
-                    .date(line.substring(0, 16))
+                    .time(line.substring(0, 16))
                     .sma(line.substring(17, line.length() - 1))
                     .build())
         .collect(Collectors.toList());
