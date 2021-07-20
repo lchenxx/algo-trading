@@ -1,9 +1,12 @@
 package algotrading.parsers;
 
+import lombok.ToString;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ToString
 public class SMAParser {
 
   public List<SMA> parseStringToSMAList(String input) {
