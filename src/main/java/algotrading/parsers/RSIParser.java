@@ -14,8 +14,8 @@ public class RSIParser {
         .map(
             line ->
                 RSI.builder()
-                    .time(line.substring(0, 16))
-                    .rsi(line.substring(17, line.length() - 1))
+                    .time(line.substring(0, 10))
+                    .rsi(line.substring(11, line.length() - 1))
                     .build())
         .collect(Collectors.toList());
   }
