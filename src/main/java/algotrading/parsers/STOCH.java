@@ -7,7 +7,8 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @ToString
-public class SMA {
+public class STOCH {
   String time;
-  String sma;
+  String slowD;
+  String slowK;
 }

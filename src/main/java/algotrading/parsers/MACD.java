@@ -7,7 +7,9 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @ToString
-public class SMA {
+public class MACD {
   String time;
-  String sma;
+  String macd;
+  String macdHist;
+  String macdSignal;
 }

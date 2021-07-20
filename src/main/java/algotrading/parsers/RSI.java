@@ -7,7 +7,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @ToString
-public class SMA {
+public class RSI {
   String time;
-  String sma;
+  String rsi;
 }
