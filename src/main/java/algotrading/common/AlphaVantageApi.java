@@ -38,6 +38,7 @@ public class AlphaVantageApi {
   public String getDataByIndicator(
       String indicator, String symbol, String interval, @Nullable String timePeriod)
       throws IOException, InterruptedException {
+
     switch (indicator.toLowerCase()) {
       case "rsi":
         uri = constructUriByIndicator("RSI", symbol, interval, timePeriod, null);
@@ -46,6 +47,7 @@ public class AlphaVantageApi {
       case "macd":
         uri = constructUriByIndicator("MACD", symbol, interval, null, null);
     }
+
     request =
         HttpRequest.newBuilder()
             .uri(URI.create(uri))
