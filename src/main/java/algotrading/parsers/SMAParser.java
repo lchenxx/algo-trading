@@ -1,6 +1,11 @@
 package algotrading.parsers;
 
 import lombok.ToString;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.boot.json.JsonParser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,4 +24,12 @@ public class SMAParser {
                     .build())
         .collect(Collectors.toList());
   }
+  //
+  //  public JSONArray parseStringToSMAListJson(String input) throws ParseException {
+  //    Object obj = new JSONParser().parse(input);
+  //    JSONArray array = new JSONArray();
+  //    array.add(obj);
+  //    System.out.println(array);
+  //    return array;
+  //  }
 }
