@@ -7,13 +7,32 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class AlphaVantageApi {
+public class AlphaVantageApi implements FileManager {
   HttpRequest request;
   HttpResponse<String> response;
   String uri;
+  List<String> tickers = load(Constants.RelativePathToFile);
+
+  public List<String> getRawDataByTickers(String function, String interval, String compactOrNot)
+      throws IOException, InterruptedException {
+    List<String> ret = new ArrayList<>();
+    for (String ticker : tickers) {
+      ret.add(getDataByFunction(function, ticker, interval, compactOrNot));
+    }
+    return ret;
+  }
+
+  public List<String> getTechnicalDataByTickers(
+      String indicator, String interval, @Nullable String timePeriod)
+      throws IOException, InterruptedException {
+    List<String> ret = new ArrayList<>();
+    for (String ticker : tickers) {
+      ret.add(getDataByIndicator(indicator, ticker, interval, timePeriod));
+    }
+    return ret;
+  }
 
   public String getDataByFunction(
       String function, String symbol, String interval, String compactOrNot)
