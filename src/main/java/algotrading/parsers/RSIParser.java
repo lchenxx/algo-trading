@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class RSIParser {
 
   public List<RSI> parseStringToRSIList(String input) {
-    return Arrays.stream(input.replaceAll("[a-zA-Z]", "").substring(1).trim().split("\n"))
+    return Arrays.stream(input.replaceAll("[a-zA-Z]", "").replaceFirst("^,\\s+", "").split("\n"))
         .map(
             line ->
                 RSI.builder()
