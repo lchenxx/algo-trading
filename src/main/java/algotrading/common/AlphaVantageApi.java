@@ -1,5 +1,6 @@
 package algotrading.common;
 
+import algotrading.parsers.PV;
 import org.springframework.lang.Nullable;
 
 import java.io.IOException;
@@ -9,17 +10,20 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
+import static algotrading.parsers.PVParser.parseStringToPriceDataList;
+
 public class AlphaVantageApi implements FileManager {
   HttpRequest request;
   HttpResponse<String> response;
   String uri;
   List<String> tickers = load(Constants.RelativePathToFile);
 
-  public List<String> getRawDataByTickers(String function, String interval, String compactOrNot)
+  public List<List<PV>> getRawDataByTickers(String function, String interval, String compactOrNot)
       throws IOException, InterruptedException {
-    List<String> ret = new ArrayList<>();
+    List<List<PV>> ret = new ArrayList<>();
     for (String ticker : tickers) {
-      ret.add(getDataByFunction(function, ticker, interval, compactOrNot));
+      ret.add(
+          parseStringToPriceDataList(getDataByFunction(function, ticker, interval, compactOrNot)));
     }
     return ret;
   }
