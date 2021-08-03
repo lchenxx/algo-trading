@@ -1,6 +1,38 @@
 package algotrading.services;
 
+import algotrading.common.Constants;
+import algotrading.common.FileManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RatingProcessor {
-  // individual stock rating by technical indicators
-  // outputs a json file
+
+  private MACDProcessor macdProcessor;
+
+  public RatingProcessor() {
+    this.macdProcessor = new MACDProcessor();
+  }
+
+  // take result of individual indicator, group them and return final recommendation per ticker as a
+  // JSON string
+  public String processRating() throws IOException, InterruptedException {
+    Map<String, String> map = new HashMap<>();
+    Map<String, String> macdMap = macdProcessor.processEachTickerForMacd();
+
+    for (String ticker : Constants.tickers) {
+      String recommendation = macdMap.get(ticker);
+      if (recommendation.equalsIgnoreCase("buy")) map.put(ticker, "buy");
+      else if (recommendation.equalsIgnoreCase("sell")) map.put(ticker, "sell");
+      map.put(ticker, "neutral");
+      ;
+    }
+
+    ObjectMapper mapper = new ObjectMapper();
+    System.out.println(mapper.writeValueAsString(map));
+
+    return mapper.writeValueAsString(map);
+  }
 }
