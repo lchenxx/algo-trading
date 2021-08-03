@@ -8,14 +8,7 @@ public class MACDParser {
   public List<MACD> parseStringToMacdList(String input) {
     return Arrays.stream(
             input.replaceAll("[a-zA-Z]", "").substring(5).replaceFirst("^\\s+", "").split("\n"))
-        .map(
-            line ->
-                MACD.builder()
-                    .time(line.split(",")[0])
-                    .macd(line.split(",")[1])
-                    .macdHist(line.split(",")[2])
-                    .macdSignal(line.split(",")[3].trim())
-                    .build())
+        .map(line -> MACD.builder().time(line.split(",")[0]).macdHist(line.split(",")[2]).build())
         .collect(Collectors.toList());
   }
 }

@@ -9,7 +9,5 @@ import lombok.ToString;
 @ToString
 public class MACD {
   String time;
-  String macd;
   String macdHist;
-  String macdSignal;
 }
