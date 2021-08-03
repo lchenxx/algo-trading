@@ -2,6 +2,7 @@ package algotrading.common;
 
 import algotrading.parsers.PV;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,6 +13,7 @@ import java.util.*;
 
 import static algotrading.parsers.PVParser.parseStringToPriceDataList;
 
+@Service
 public class AlphaVantageApi implements FileManager {
   HttpRequest request;
   HttpResponse<String> response;

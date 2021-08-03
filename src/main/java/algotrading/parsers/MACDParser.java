@@ -1,9 +1,12 @@
 package algotrading.parsers;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class MACDParser {
   public List<MACD> parseStringToMacdList(String input) {
     return Arrays.stream(
@@ -12,9 +15,7 @@ public class MACDParser {
             line ->
                 MACD.builder()
                     .time(line.split(",")[0])
-                    .macd(line.split(",")[1])
-                    .macdHist(line.split(",")[2])
-                    .macdSignal(line.split(",")[3].trim())
+                    .macdHist(Double.parseDouble(line.split(",")[2]))
                     .build())
         .collect(Collectors.toList());
   }
