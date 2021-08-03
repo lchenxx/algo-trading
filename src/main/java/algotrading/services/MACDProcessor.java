@@ -2,7 +2,6 @@ package algotrading.services;
 
 import algotrading.common.AlphaVantageApi;
 import algotrading.common.Constants;
-import algotrading.common.FileManager;
 import algotrading.parsers.MACD;
 import algotrading.parsers.MACDParser;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  the MACD processor will process MACD values for individual ticker
+ *  and provide recommendation for each
+ */
 @Service
 public class MACDProcessor {
 
