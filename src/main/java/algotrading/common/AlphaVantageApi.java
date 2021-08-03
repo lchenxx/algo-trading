@@ -54,9 +54,6 @@ public class AlphaVantageApi implements FileManager {
 
     response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-    System.out.println("Request URI is " + request.uri());
-    System.out.println(response.body());
-
     return response.body();
   }
 
@@ -85,9 +82,6 @@ public class AlphaVantageApi implements FileManager {
             .build();
 
     response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-    System.out.println("Request URI is " + request.uri());
-    System.out.println(response.body());
 
     return response.body();
   }
