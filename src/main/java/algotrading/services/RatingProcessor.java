@@ -25,10 +25,11 @@ public class RatingProcessor {
 
     for (String ticker : Constants.tickers) {
       String recommendation = macdMap.get(ticker);
-      if (recommendation.equalsIgnoreCase("buy")) map.put(ticker, "buy");
-      else if (recommendation.equalsIgnoreCase("sell")) map.put(ticker, "sell");
-      map.put(ticker, "neutral");
-      ;
+      if (recommendation.equalsIgnoreCase("buy")) {
+        map.put(ticker, "buy");
+      } else if (recommendation.equalsIgnoreCase("sell")) {
+        map.put(ticker, "sell");
+      } else map.put(ticker, "neutral");
     }
 
     ObjectMapper mapper = new ObjectMapper();
