@@ -8,6 +8,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class MACD {
-  String time;
-  String macdHist;
+  public String time;
+  public double macdHist;
 }
