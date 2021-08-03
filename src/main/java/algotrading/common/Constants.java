@@ -13,5 +13,5 @@ public class Constants {
           put("x-rapidapi-host", "alpha-vantage.p.rapidapi.com");
         }
       };
-  static final String RelativePathToFile = "src/main/resources/tickers.txt";
+  public static final String RelativePathToFile = "src/main/resources/tickers.txt";
 }
