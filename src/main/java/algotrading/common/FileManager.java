@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface FileManager {
-  default List<String> load(String fileName) {
+  static List<String> load(String fileName) {
     try {
       File file = new File(fileName);
       return Arrays.asList(FileUtils.readFileToString(file, StandardCharsets.UTF_8).split(","));

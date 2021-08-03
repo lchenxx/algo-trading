@@ -1,41 +1,56 @@
 package algotrading.services;
 
 import algotrading.common.AlphaVantageApi;
+import algotrading.common.Constants;
+import algotrading.common.FileManager;
 import algotrading.parsers.MACD;
 import algotrading.parsers.MACDParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MACDProcessor {
 
-  @Autowired
-  private AlphaVantageApi api;
-  @Autowired
-  private MACDParser macdParser;
+  private final AlphaVantageApi api;
+  private final MACDParser macdParser;
+  List<MACD> dataSet;
 
-  public String processMacdHist(@Nullable List<MACD> dataSet) throws IOException, InterruptedException {
-    dataSet = dataSet == null? macdParser
-            .parseStringToMacdList(api.getDataByIndicator("MACD", "AMZN", "60min", null))
-            .subList(0, 5) : dataSet;
+  public MACDProcessor() {
+    this.api = new AlphaVantageApi();
+    this.macdParser = new MACDParser();
+  }
+
+  public String processMacdHist(List<MACD> data) {
     String ret;
-
-    if (dataSet.get(0).macdHist > 0 && dataSet.get(1).macdHist < 0) {
+    if (data.get(0).macdHist > 0 && data.get(1).macdHist < 0) {
       ret = "buy";
-    } else if (dataSet.get(0).macdHist > dataSet.get(1).macdHist
-        && dataSet.get(1).macdHist > dataSet.get(2).macdHist
-        && dataSet.get(1).macdHist > 0) {
+    } else if (data.get(0).macdHist > data.get(1).macdHist
+        && data.get(1).macdHist > data.get(2).macdHist
+        && data.get(2).macdHist > 0) {
       ret = "buy";
-    } else if (dataSet.get(0).macdHist > 0
-        && dataSet.get(0).macdHist < dataSet.get(1).macdHist
-        && dataSet.get(1).macdHist > 0
-        && dataSet.get(1).macdHist < dataSet.get(2).macdHist) {
+    } else if (data.get(0).macdHist > 0
+        && data.get(0).macdHist < data.get(1).macdHist
+        && data.get(1).macdHist > 0
+        && data.get(1).macdHist < data.get(2).macdHist) {
       ret = "sell";
     } else ret = "neutral";
+
     return ret;
+  }
+
+  public Map<String, String> processEachTickerForMacd() throws IOException, InterruptedException {
+    Map<String, String> map = new HashMap<>();
+    for (String ticker : Constants.tickers) {
+      dataSet =
+          macdParser
+              .parseStringToMacdList(api.getDataByIndicator("MACD", ticker, "60min", null))
+              .subList(0, 5);
+      map.put(ticker, processMacdHist(dataSet));
+    }
+    return map;
   }
 }
