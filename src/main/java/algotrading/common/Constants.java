@@ -1,6 +1,7 @@
 package algotrading.common;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Constants {
@@ -13,5 +14,6 @@ public class Constants {
           put("x-rapidapi-host", "alpha-vantage.p.rapidapi.com");
         }
       };
-  public static final String RelativePathToFile = "src/main/resources/tickers.txt";
+  static final String RelativePathToFile = "src/main/resources/tickers.txt";
+  public static final List<String> tickers = FileManager.load(RelativePathToFile);
 }

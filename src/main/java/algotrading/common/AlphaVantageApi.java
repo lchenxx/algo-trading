@@ -18,7 +18,7 @@ public class AlphaVantageApi implements FileManager {
   HttpRequest request;
   HttpResponse<String> response;
   String uri;
-  List<String> tickers = load(Constants.RelativePathToFile);
+  List<String> tickers = Constants.tickers;
 
   public List<List<PV>> getRawDataByTickers(String function, String interval, String compactOrNot)
       throws IOException, InterruptedException {
