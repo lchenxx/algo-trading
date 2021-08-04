@@ -4,6 +4,8 @@ import algotrading.common.AlphaVantageApi;
 import algotrading.common.Constants;
 import algotrading.parsers.MACD;
 import algotrading.parsers.MACDParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.Map;
 @Service
 public class MACDProcessor {
 
+  private static final Logger log = LoggerFactory.getLogger(MACDProcessor.class);
   private final AlphaVantageApi api;
   private final MACDParser macdParser;
   List<MACD> dataSet;
@@ -42,12 +45,14 @@ public class MACDProcessor {
       ret = "sell";
     } else ret = "neutral";
 
+    log.info("\"" + ret + "\" recommendation generated");
     return ret;
   }
 
   public Map<String, String> processEachTickerForMacd() throws IOException, InterruptedException {
     Map<String, String> map = new HashMap<>();
     for (String ticker : Constants.tickers) {
+      log.info("generating recommendation based on MACD value for: " + ticker);
       dataSet =
           macdParser
               .parseStringToMacdList(api.getDataByIndicator("MACD", ticker, "60min", null))

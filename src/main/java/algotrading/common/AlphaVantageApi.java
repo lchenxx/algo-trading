@@ -1,6 +1,8 @@
 package algotrading.common;
 
 import algotrading.parsers.PV;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,13 @@ public class AlphaVantageApi implements FileManager {
   HttpResponse<String> response;
   String uri;
   List<String> tickers = Constants.tickers;
+  private static final Logger log = LoggerFactory.getLogger(AlphaVantageApi.class);
 
   public List<List<PV>> getRawDataByTickers(String function, String interval, String compactOrNot)
       throws IOException, InterruptedException {
     List<List<PV>> ret = new ArrayList<>();
     for (String ticker : tickers) {
+      log.info("retrieving " + interval + " " + function + " data for " + ticker);
       ret.add(
           parseStringToPriceDataList(getDataByFunction(function, ticker, interval, compactOrNot)));
     }
@@ -35,6 +39,7 @@ public class AlphaVantageApi implements FileManager {
       throws IOException, InterruptedException {
     List<String> ret = new ArrayList<>();
     for (String ticker : tickers) {
+      log.info("retrieving " + interval + " " + indicator + " data for " + ticker);
       ret.add(getDataByIndicator(indicator, ticker, interval, timePeriod));
     }
     return ret;
