@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  the MACD processor will process MACD values for individual ticker
- *  and provide recommendation for each
+ * the MACD processor will process MACD values for individual ticker and provide recommendation for
+ * each
  */
 @Service
 public class MACDProcessor {
@@ -37,8 +37,8 @@ public class MACDProcessor {
       ret = "buy";
     } else if (data.get(0).macdHist > 0
         && data.get(0).macdHist < data.get(1).macdHist
-        && data.get(1).macdHist > 0
-        && data.get(1).macdHist < data.get(2).macdHist) {
+        && data.get(1).macdHist < data.get(2).macdHist
+        && data.get(2).macdHist < data.get(3).macdHist) {
       ret = "sell";
     } else ret = "neutral";
 
